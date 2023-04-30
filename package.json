@@ -7,11 +7,17 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-		"CLI",
+    "CLI",
     "commit",
-		"conventional",
+    "conventional",
     "git"
-	],
+  ],
   "author": "Frank Rocha",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^10.0.1",
+    "figlet": "^1.6.0",
+    "gradient-string": "^2.0.2",
+    "inquirer": "^9.2.0"
+  }
 }
