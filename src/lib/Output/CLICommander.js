@@ -1,4 +1,3 @@
-import figlet from 'figlet'
 import { Command, Option, Argument } from 'commander';
 import boxen from 'boxen';
 import chalk from 'chalk';
