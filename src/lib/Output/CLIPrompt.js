@@ -1,6 +1,7 @@
 import inquirer from 'inquirer';
 import MaxLengthInputPrompt from 'inquirer-maxlength-input-prompt'
 import GitCommands from '../Commands/GitCommands.js';
+import PrintTable from '../hepers/PrintTable.js';
 
 export default class CLIPrompt {
 	#summary;
@@ -93,11 +94,9 @@ export default class CLIPrompt {
 		}
 		catch (error) {
 			if (error.isTtyError) {
-				console.log(error.message);
-				// Prompt couldn't be rendered in the current environment
+				new PrintTable().errorTable(error.status, error.message, 'TtyError');
 			} else {
-				console.log(error);
-				// Something else went wrong
+				new PrintTable().errorTable(error.status, error.message, 'Error');
 			}
 		};
 	}
