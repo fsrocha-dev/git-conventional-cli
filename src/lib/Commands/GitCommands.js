@@ -16,10 +16,8 @@ export default class GitCommands {
 		if (summary) completeSummaryCommit += `: ${summary}`;
 		if(description) descriptionCommit += `-m "${description}"`;
 
-		console.log(`git add . && git commit -m "${completeSummaryCommit}" ${descriptionCommit} && git push`)
-
-		// const output = this.gitExecCommand('git add . && git commit -m "' + completeSummaryCommit + '" -m "'+ description +'" && git push');
-		// console.log(output);
+		const output = this.gitExecCommand(`git add . && git commit -m "${completeSummaryCommit}" ${descriptionCommit} && git push`);
+		console.log(output);
 	}
 
 	getCommitLog() {
