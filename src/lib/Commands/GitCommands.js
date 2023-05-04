@@ -18,7 +18,8 @@ export default class GitCommands {
 		if(description) descriptionCommit += `-m "${description}"`;
 
 		const output = this.gitExecCommand(`git add . && git commit -m "${completeSummaryCommit}" ${descriptionCommit} && git push`);
-		this.#print.success('Commit successfully', this.formatSuccessCommitOutput(output));
+
+		this.#print.successTable(chalk.hex(this.#PRIMARY_COLOR)('Commit successfully'), this.formatSuccessCommitOutput(output));
 	}
 
 	getCommitLog() {
@@ -66,18 +67,18 @@ export default class GitCommands {
 	formatSuccessCommitOutput(output) {
 		const regex = /^\s*\[([^\]]+)\]\s*([^ ]+ [^ ]+)(.*)/;
 		const match = regex.exec(output[0]);
-		const [branch, hash] = match[1].split(' ');
+		const [branch = ': (', hash = 'xxxx'] = match[1].split(' ');
 		const summary = match[2] + match[3];
 
-		const [changed, insertion, deletion] = output[1].split(',')
+		const [changed = '0 changed', insertion = '0 insertion', deletion = '0 deletion'] = output[1].split(',')
 
 		return [
 			{ Branch: [branch] },
-			{ 'Commit Hash': [hash] },
+			{ Hash: [hash] },
 			{ Summary: [summary] },
-			{ 'Changed': [changed] },
-			{ 'Insertion': [insertion] },
-			{ 'Deletion': [deletion] },
+			{ Changed: [changed] },
+			{ Insertion: [insertion] },
+			{ Deletion: [deletion]},
 		]
 
 	}
