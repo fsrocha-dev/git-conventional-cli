@@ -38,6 +38,11 @@ export default class GitCommands {
 		this.#print.successTable(title, this.#formatResetSuccessOperation(output, types[type]));
 	}
 
+	getLocalStatus() {
+		this.getChangedFiles()
+		this.getUntrackedFiles()
+	}
+
 	getCommitLog() {
 		const gitLogCommandOutput = this.gitExecCommand('git log --format=format:"%h | %aN%Creset | %s"');
 

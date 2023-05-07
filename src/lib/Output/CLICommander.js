@@ -25,6 +25,13 @@ export default class CLICommander {
 			.version('1.0.0');
 
 			program
+				.command('sts')
+				.description('Status of the local repository')
+				.action(() => {
+					this.gitCommand.getLocalStatus();
+				});
+
+			program
 				.command('log')
 				.description('Log of last commits')
 				.action(() => {
