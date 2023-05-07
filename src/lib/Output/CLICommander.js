@@ -8,6 +8,7 @@ export default class CLICommander {
 
 	constructor() {
 		this.program = new Command();
+		this.gitCommand = new GitCommands();
 	}
 
 	init() {
@@ -27,21 +28,30 @@ export default class CLICommander {
 				.command('log')
 				.description('Log of last commits')
 				.action(() => {
-					new GitCommands().getCommitLog();
+					this.gitCommand.getCommitLog();
 				});
 
 			program
 				.command('unt')
 				.description('List of untracked files')
 				.action(() => {
-					new GitCommands().getUntrackedFiles();
+					this.gitCommand.getUntrackedFiles();
 				});
 
 			program
 				.command('mod')
 				.description('List of modified files')
 				.action(() => {
-					new GitCommands().getChangedFiles();
+					this.gitCommand.getChangedFiles();
+				});
+
+			program
+				.command('rst')
+				.description('Undo local changes to the repository using the reset comman | Possible types: h (hard), s (soft), m (mixed)')
+				.addArgument(new Argument('<type>').choices(['h', 's', 'm']))
+				.addArgument(new Argument('<hash-or-number>'))
+				.action((type, hashOrNumber ) => {
+					this.gitCommand.resetChanges(type, hashOrNumber);
 				});
 
 		program

@@ -7,6 +7,7 @@ export default class GitCommands {
 
 	#PRIMARY_COLOR = '#D19A66';
 	#SECONDARY_COLOR = '#E06C75';
+	#GREEN_COLOR = '#71C6B1';
 
 	gitPush({ type, scope, summary, description}) {
 		let completeSummaryCommit = ''
@@ -19,7 +20,20 @@ export default class GitCommands {
 
 		const output = this.gitExecCommand(`git add . && git commit -m "${completeSummaryCommit}" ${descriptionCommit} && git push`);
 
-		this.#print.successTable(chalk.hex(this.#PRIMARY_COLOR)('Commit successfully'), this.formatSuccessCommitOutput(output));
+		this.#print.successTable(chalk.hex(this.#PRIMARY_COLOR)('Commit successfully'), this.#formatSuccessCommitOutput(output));
+	}
+
+	resetChanges(type, hashOrNumber) {
+		const types = {
+			h: '--hard',
+			s: '--soft',
+			m: '--mixed'
+		}
+		const output = this.gitExecCommand(`git reset ${types[type]} ${hashOrNumber}`);
+
+		const title = chalk.hex(this.#GREEN_COLOR)(`Reset successfully`);
+
+		this.#print.successTable(title, this.#formatResetSuccessOperation(output, types[type]));
 	}
 
 	getCommitLog() {
@@ -60,7 +74,7 @@ export default class GitCommands {
 			return output.split('\n').filter(Boolean);
 	}
 
-	formatSuccessCommitOutput(output) {
+	#formatSuccessCommitOutput(output) {
 		const regex = /^\s*\[([^\]]+)\]\s*([^ ]+ [^ ]+)(.*)/;
 		const match = regex.exec(output[0]);
 		const [branch = ': (', hash = 'xxxx'] = match[1].split(' ');
@@ -77,6 +91,17 @@ export default class GitCommands {
 			{ Deletion: [deletion]},
 		]
 
+	}
+
+	#formatResetSuccessOperation(output, type) {
+		const regex = /(\b\w{7}\b)(.*)/;
+		const [, hash, commitSummary] = output.match(regex);
+
+		return [
+			[chalk.hex(this.#GREEN_COLOR)('Type:'), type],
+			[chalk.hex(this.#GREEN_COLOR)('Current HEAD:'), hash],
+			[chalk.hex(this.#GREEN_COLOR)('Commit Summary:'), commitSummary.trim()]
+		]
 	}
 
 }
