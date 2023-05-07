@@ -58,17 +58,25 @@ export default class GitCommands {
 	getChangedFiles() {
 		const output = this.gitExecCommand('git diff --name-only');
 		const head = [chalk.hex(this.#SECONDARY_COLOR)("Modified Files")]
-		this.#print.table(head, output.map(line => [line]))
+		const changedFiles = output.map(line => [line])
 
-		return output.length > 0 ? true : false
+		const hasChangedFiles = changedFiles.length > 0
+
+		this.#print.table(head, hasChangedFiles ? changedFiles : [['No modified files']])
+
+		return hasChangedFiles ? true : false
 	}
 
 	getUntrackedFiles() {
 		const output = this.gitExecCommand('git ls-files --others --exclude-standard');
 		const head = [chalk.hex(this.#SECONDARY_COLOR)("Untracked Files")]
-		this.#print.table(head, output.map(line => [line]))
+		const untrackedFiles = output.map(line => [line])
 
-		return output.length > 0 ? true : false
+		const hasUntrackedFiles = untrackedFiles.length > 0
+
+		this.#print.table(head, hasUntrackedFiles ? untrackedFiles : [['No untracked files']])
+
+		return hasUntrackedFiles ? true : false
 	}
 
 	gitExecCommand(command) {
