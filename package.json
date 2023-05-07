@@ -28,5 +28,11 @@
     "inquirer": "^9.2.0",
     "inquirer-maxlength-input-prompt": "^1.0.2",
     "jest": "^29.5.0"
-  }
+  },
+	"bin": {
+    "gcc": "./src/lib/index.js"
+  },
+  "files": [
+    "./src"
+  ]
 }
