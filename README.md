@@ -1,7 +1,7 @@
 <h1 align="center">
 	<br>
 	<br>
-	<img width="320" src="https://github.com/fsrocha-dev/giteasly/blob/main/src/assets/icons/icon.png" alt="Git Conventional CLI">
+	<img width="320" src="https://github.com/fsrocha-dev/git-conventional-cli/blob/main/src/assets/icons/icon.png" alt="Git Conventional CLI">
 	<br>
 	<br>
 	<br>
