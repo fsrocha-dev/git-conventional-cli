@@ -56,12 +56,8 @@ export default class GitCommands {
 	}
 
 	gitExecCommand(command) {
-		try {
 			const output = execSync(command).toString();
 			return output.split('\n').filter(Boolean);
-		} catch (error) {
-			this.#print.errorTable(error.status, error.message)
-		}
 	}
 
 	formatSuccessCommitOutput(output) {
