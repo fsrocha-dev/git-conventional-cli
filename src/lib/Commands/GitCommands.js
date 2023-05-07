@@ -29,9 +29,11 @@ export default class GitCommands {
 			s: '--soft',
 			m: '--mixed'
 		}
-		const output = this.gitExecCommand(`git reset ${types[type]} ${hashOrNumber}`);
+		const prefix = isNaN(hashOrNumber) ? '' : 'HEAD~'
 
-		const title = chalk.hex(this.#GREEN_COLOR)(`Reset successfully`);
+		const output = this.gitExecCommand(`git reset ${types[type]} ${prefix + hashOrNumber}`);
+
+		const title = chalk.hex(this.#GREEN_COLOR)("Reset successfully");
 
 		this.#print.successTable(title, this.#formatResetSuccessOperation(output, types[type]));
 	}
