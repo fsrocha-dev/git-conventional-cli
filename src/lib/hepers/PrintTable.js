@@ -12,7 +12,7 @@ export default class PrintTable {
 		this.print()
 	}
 
-	errorTable(status, message, title) {
+	errorTable(status, message, title = 'Git Error') {
 		this.#tableParams = {
 			head: ["", ` ${title} `],
 			chars: { 'top': '═', 'bottom': '═' },
