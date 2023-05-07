@@ -10,6 +10,10 @@
     "test:watch": "jest --watchAll",
     "test:coverage": "jest --coverage"
   },
+	"bugs": {
+    "url": "https://github.com/fsrocha-dev/git-conventional-cli/issues"
+  },
+  "homepage": "https://github.com/fsrocha-dev/git-conventional-cli",
   "keywords": [
     "CLI",
     "commit",
