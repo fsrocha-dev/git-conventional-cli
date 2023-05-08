@@ -1,5 +1,5 @@
 import { execSync } from 'child_process';
-import PrintTable from '../hepers/PrintTable.js';
+import PrintTable from '../helpers/PrintTable.js';
 import chalk from 'chalk';
 
 export default class GitCommands {

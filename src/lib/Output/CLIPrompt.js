@@ -1,7 +1,7 @@
 import inquirer from 'inquirer';
 import MaxLengthInputPrompt from 'inquirer-maxlength-input-prompt'
 import GitCommands from '../Commands/GitCommands.js';
-import PrintTable from '../hepers/PrintTable.js';
+import PrintTable from '../helpers/PrintTable.js';
 
 export default class CLIPrompt {
 	#summary;
