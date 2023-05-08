@@ -1,7 +1,7 @@
-import Table from 'cli-table';
+import Table from 'cli-table'
 
 export default class PrintTable {
-	#tableParams;
+	#tableParams
 
 	table(head, rows) {
 		this.#tableParams = {
@@ -14,7 +14,7 @@ export default class PrintTable {
 
 	errorTable(status, message, title = 'Git Error') {
 		this.#tableParams = {
-			head: ["", ` ${title} `],
+			head: ['', ` ${title} `],
 			chars: { 'top': '═', 'bottom': '═' },
 			rows: [
 				{ Status: [status] },
@@ -26,7 +26,7 @@ export default class PrintTable {
 
 	successTable(title, rows) {
 		this.#tableParams = {
-			head: ["", ` ${title} `],
+			head: ['', ` ${title} `],
 			chars: { 'top': '═', 'bottom': '═' },
 			rows
 		}
@@ -34,6 +34,6 @@ export default class PrintTable {
 	}
 
 	print() {
-		console.log(new Table(this.#tableParams).toString());
+		console.log(new Table(this.#tableParams).toString())
 	}
 }

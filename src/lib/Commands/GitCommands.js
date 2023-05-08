@@ -1,26 +1,26 @@
-import { execSync } from 'child_process';
-import PrintTable from '../helpers/PrintTable.js';
-import chalk from 'chalk';
+import { execSync } from 'child_process'
+import PrintTable from '../helpers/PrintTable.js'
+import chalk from 'chalk'
 
 export default class GitCommands {
 	#print = new PrintTable()
 
-	#PRIMARY_COLOR = '#D19A66';
-	#SECONDARY_COLOR = '#E06C75';
-	#GREEN_COLOR = '#71C6B1';
+	#PRIMARY_COLOR = '#D19A66'
+	#SECONDARY_COLOR = '#E06C75'
+	#GREEN_COLOR = '#71C6B1'
 
 	gitPush({ type, scope, summary, description}) {
 		let completeSummaryCommit = ''
 		let descriptionCommit = ''
 
-		if (type) completeSummaryCommit += `${type.split(':')[0]}`;
-		if (scope) completeSummaryCommit += `(${scope})`;
-		if (summary) completeSummaryCommit += `: ${summary}`;
-		if(description) descriptionCommit += `-m "${description}"`;
+		if (type) completeSummaryCommit += `${type.split(':')[0]}`
+		if (scope) completeSummaryCommit += `(${scope})`
+		if (summary) completeSummaryCommit += `: ${summary}`
+		if(description) descriptionCommit += `-m "${description}"`
 
-		const output = this.gitExecCommand(`git add . && git commit -m "${completeSummaryCommit}" ${descriptionCommit} && git push`);
+		const output = this.gitExecCommand(`git add . && git commit -m "${completeSummaryCommit}" ${descriptionCommit} && git push`)
 
-		this.#print.successTable(chalk.hex(this.#PRIMARY_COLOR)('Commit successfully'), this.#formatSuccessCommitOutput(output));
+		this.#print.successTable(chalk.hex(this.#PRIMARY_COLOR)('Commit successfully'), this.#formatSuccessCommitOutput(output))
 	}
 
 	resetChanges(type, hashOrNumber) {
@@ -31,11 +31,11 @@ export default class GitCommands {
 		}
 		const prefix = isNaN(hashOrNumber) ? '' : 'HEAD~'
 
-		const output = this.gitExecCommand(`git reset ${types[type]} ${prefix + hashOrNumber}`);
+		const output = this.gitExecCommand(`git reset ${types[type]} ${prefix + hashOrNumber}`)
 
-		const title = chalk.hex(this.#GREEN_COLOR)("Reset successfully");
+		const title = chalk.hex(this.#GREEN_COLOR)('Reset successfully')
 
-		this.#print.successTable(title, this.#formatResetSuccessOperation(output, types[type]));
+		this.#print.successTable(title, this.#formatResetSuccessOperation(output, types[type]))
 	}
 
 	getLocalStatus() {
@@ -44,12 +44,12 @@ export default class GitCommands {
 	}
 
 	getCommitLog() {
-		const gitLogCommandOutput = this.gitExecCommand('git log --format=format:"%h | %aN%Creset | %s"');
+		const gitLogCommandOutput = this.gitExecCommand('git log --format=format:"%h | %aN%Creset | %s"')
 
 		const head = [
-			chalk.hex(this.#PRIMARY_COLOR)("Commit Hash"),
-			chalk.hex(this.#PRIMARY_COLOR)("Author"),
-			chalk.hex(this.#PRIMARY_COLOR)("Summary")
+			chalk.hex(this.#PRIMARY_COLOR)('Commit Hash'),
+			chalk.hex(this.#PRIMARY_COLOR)('Author'),
+			chalk.hex(this.#PRIMARY_COLOR)('Summary')
 		]
 
 		const rows = gitLogCommandOutput.map((line) => {
@@ -61,8 +61,8 @@ export default class GitCommands {
 	}
 
 	getChangedFiles() {
-		const output = this.gitExecCommand('git diff --name-only');
-		const head = [chalk.hex(this.#SECONDARY_COLOR)("Modified Files")]
+		const output = this.gitExecCommand('git diff --name-only')
+		const head = [chalk.hex(this.#SECONDARY_COLOR)('Modified Files')]
 		const changedFiles = output.map(line => [line])
 
 		const hasChangedFiles = changedFiles.length > 0
@@ -73,8 +73,8 @@ export default class GitCommands {
 	}
 
 	getUntrackedFiles() {
-		const output = this.gitExecCommand('git ls-files --others --exclude-standard');
-		const head = [chalk.hex(this.#SECONDARY_COLOR)("Untracked Files")]
+		const output = this.gitExecCommand('git ls-files --others --exclude-standard')
+		const head = [chalk.hex(this.#SECONDARY_COLOR)('Untracked Files')]
 		const untrackedFiles = output.map(line => [line])
 
 		const hasUntrackedFiles = untrackedFiles.length > 0
@@ -85,15 +85,15 @@ export default class GitCommands {
 	}
 
 	gitExecCommand(command) {
-			const output = execSync(command).toString();
-			return output.split('\n').filter(Boolean);
+		const output = execSync(command).toString()
+		return output.split('\n').filter(Boolean)
 	}
 
 	#formatSuccessCommitOutput(output) {
-		const regex = /^\s*\[([^\]]+)\]\s*([^ ]+ [^ ]+)(.*)/;
-		const match = regex.exec(output[0]);
-		const [branch = ': (', hash = 'xxxx'] = match[1].split(' ');
-		const summary = match[2] + match[3];
+		const regex = /^\s*\[([^\]]+)\]\s*([^ ]+ [^ ]+)(.*)/
+		const match = regex.exec(output[0])
+		const [branch = ': (', hash = 'xxxx'] = match[1].split(' ')
+		const summary = match[2] + match[3]
 
 		const [changed = '0 changed', insertion = '0 insertion', deletion = '0 deletion'] = output[1].split(',')
 
@@ -109,8 +109,8 @@ export default class GitCommands {
 	}
 
 	#formatResetSuccessOperation(output, type) {
-		const regex = /(\b\w{7}\b)(.*)/;
-		const [, hash, commitSummary] = output.match(regex);
+		const regex = /(\b\w{7}\b)(.*)/
+		const [, hash, commitSummary] = output.match(regex)
 
 		return [
 			[chalk.hex(this.#GREEN_COLOR)('Type:'), type],
